@@ -28,12 +28,5 @@ class Example implements ObserverInterface
     public function execute(Observer $observer)
     {
         $this->logger->info('Event Triggered in adminhtml scope2');
-       $order= \Magento\Framework\App\ObjectManager::getInstance()
-    ->get(\Magento\Framework\Registry::class)->registry('order');
-
-        // $this->logger->info($order->getData());
-         $this->logger->debug( $order);
-
-        $this->logger->info(print_r( $order));
     }
 }
