@@ -28,5 +28,7 @@ class Example implements ObserverInterface
     public function execute(Observer $observer)
     {
         $this->logger->info('Event Triggered in adminhtml scope2');
+        $order = $observer->getEvent()->getOrder();
+        echo $orderId = $order->getId();
     }
 }

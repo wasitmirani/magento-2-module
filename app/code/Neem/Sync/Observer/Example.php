@@ -9,7 +9,7 @@ use Neem\Sync\Logger\Logger;
 use Magento\Sales\Model\Order;
 use Magento\Framework\Event\Observer;
 use Magento\Framework\Event\ObserverInterface;
-
+use Magento\Sales\Model\Order;
 
 class Example implements ObserverInterface
 {
@@ -28,10 +28,17 @@ class Example implements ObserverInterface
 
 
 
-    public function __construct(Logger $logger)
-    {
-        $this->logger = $logger;
 
+    protected $order;
+
+    public function __construct(Logger $logger,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Sales\Model\Order $order,
+        array $data = []
+    ) {
+        $this->order = $order;
+        $this->logger = $logger;
+        parent::__construct($context, $data);
     }
 
     public function execute(Observer $observer)
@@ -42,7 +49,9 @@ class Example implements ObserverInterface
         try
         {
             $order = $observer->getEvent()->getOrder();
-            $this->sendOrder($order);
+             $orderId = $order->getId();
+
+            $this->sendOrder($orderId);
         }
         catch (\Exception $e)
         {
